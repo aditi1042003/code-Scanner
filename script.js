@@ -5,13 +5,12 @@ var scanner = new Instascan.Scanner({
 });
 
 scanner.addListener('scan', function(content) {
-  alert(content);
+  document.getElementById('scannedContent').innerText = content;
 });
 
 Instascan.Camera.getCameras().then(function(cameras) {
   if (cameras.length > 0) {
-    // Start the scanner with the back camera (index 0)
-    scanner.start(cameras[0]);
+     scanner.start(cameras.length > 1 ? cameras[1] : cameras[0]);
   } else {
     console.error('No cameras found.');
     alert('No cameras found.');
