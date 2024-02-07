@@ -36,4 +36,3 @@
       console.error(e);
       alert(e);
     });
-  </script>
