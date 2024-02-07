@@ -31,13 +31,24 @@ function fetchUserInfo(userID) {
       const user = data.find(user => user._id.$oid === userID);
       if (user) {
         // Display user info
-        document.getElementById('userInfo').innerHTML = `
-          <p>User ID: ${user._id.$oid}</p>
-          <p>Name: ${user.name}</p>
-          <p>College: ${user.college}</p>
-          <p>College Roll No: ${user.collegeRollNo}</p>
-          <p>Scanned: ${user.scanned ? 'Yes' : 'No'}</p>
-        `;
+        const userInfoElement = document.getElementById('userInfo');
+        if (user.scanned === false) { // If never scanned before
+          userInfoElement.innerHTML = `
+            <p>User ID: ${user._id.$oid}</p>
+            <p>Name: ${user.name}</p>
+            <p>College: ${user.college}</p>
+            <p>College Roll No: ${user.collegeRollNo}</p>
+            <p><strong style="color: green;">New Entry</strong></p>
+          `;
+        } else { // If already scanned
+          userInfoElement.innerHTML = `
+            <p>User ID: ${user._id.$oid}</p>
+            <p>Name: ${user.name}</p>
+            <p>College: ${user.college}</p>
+            <p>College Roll No: ${user.collegeRollNo}</p>
+            <p><strong style="color: red;">ALREADY ENTERED</strong></p>
+          `;
+        }
       } else {
         // Display message if user not found
         document.getElementById('userInfo').innerText = 'User not found';
@@ -45,3 +56,9 @@ function fetchUserInfo(userID) {
     })
     .catch(error => console.error('Error fetching user info:', error));
 }
+
+// Event listener for the "Scan Again" button
+document.getElementById('scanAgainButton').addEventListener('click', function() {
+  // Reload the page to start scanning again
+  location.reload();
+});
